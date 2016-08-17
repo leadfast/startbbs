@@ -165,7 +165,7 @@ class Install extends Install_Controller
         $files_writeble[] = FCPATH . 'uploads/';
         $files_writeble[] = FCPATH . 'app/config/database.php';
         $files_writeble[] = FCPATH . 'data/db/startbbs.sql';
-        
+
         foreach ($files_writeble as $item) {
             $fileMOD_item['mod'] =  is_really_writable($item);
             $fileMOD_item['name'] = str_replace(FCPATH, '', $item);
@@ -208,7 +208,7 @@ class Install extends Install_Controller
                 'ip' => get_onlineip()
             );
             if(function_exists(@mysqli_connect)){
-	            $con=mysqli_connect($dbhost, $dbuser, $dbpsw, $dbname,$port);
+	            $con = mysqli_connect($dbhost, $dbuser, $dbpsw, $dbname, $port);
             } else {
 				$con = mysql_connect($dbhost.':'.$dbport,$dbuser,$dbpsw);
             }
@@ -255,7 +255,7 @@ class Install extends Install_Controller
         }else{
 	        $this->load->view('install_process',$data);
         }
-        
+
     }
 
     /**
@@ -272,14 +272,14 @@ class Install extends Install_Controller
         $config .= "\$db['default']['username'] = '".$dbuser."';".PHP_EOL;
         $config .= "\$db['default']['password'] = '".$dbpsw."';".PHP_EOL;
         $config .= "\$db['default']['database'] = '".$dbname."';".PHP_EOL;
-        $config .= "\$db['default']['dbdriver'] = 'mysql';".PHP_EOL;
+        $config .= "\$db['default']['dbdriver'] = 'mysqli';".PHP_EOL;
         $config .= "\$db['default']['dbprefix'] = '".$dbprefix."';".PHP_EOL;
         $config .= "\$db['default']['pconnect'] = TRUE;".PHP_EOL;
         $config .= "\$db['default']['db_debug'] = TRUE;".PHP_EOL;
         $config .= "\$db['default']['cache_on'] = FALSE;".PHP_EOL;
         $config .= "\$db['default']['cachedir'] = '';".PHP_EOL;
-        $config .= "\$db['default']['char_set'] = 'utf8';".PHP_EOL;
-        $config .= "\$db['default']['dbcollat'] = 'utf8_general_ci';".PHP_EOL;
+        $config .= "\$db['default']['char_set'] = 'utf8mb4';".PHP_EOL;
+        $config .= "\$db['default']['dbcollat'] = 'utf8mb4_general_ci';".PHP_EOL;
         $config .= "\$db['default']['swap_pre'] = '';".PHP_EOL;
         $config .= "\$db['default']['autoinit'] = TRUE;".PHP_EOL;
         $config .= "\$db['default']['stricton'] = FALSE;".PHP_EOL.PHP_EOL.PHP_EOL;
@@ -304,7 +304,7 @@ class Install extends Install_Controller
      */
     private function _createTables($dbhost, $dbuser, $dbpsw, $dbname, $port,$dbprefix,$con)
     {
-        $sql = file_get_contents(FCPATH.'data/db/startbbs.sql'); 
+        $sql = file_get_contents(FCPATH.'data/db/startbbs.sql');
         $sql = str_replace('stb_', $dbprefix, $sql);
         if(function_exists(@mysqli_multi_query)){
 	        $query=mysqli_multi_query($con,$sql);
@@ -341,7 +341,7 @@ class Install extends Install_Controller
 			$con = @mysql_connect($dbhost.':'.$dbport,$dbuser,$dbpsw);
 			$con = @mysql_select_db($dbname,$con);
         }
-		
+
         if ($con) {
             echo "<font color=green><b>数据库连接成功！</b></font>";
         } else {
